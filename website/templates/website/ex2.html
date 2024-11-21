@@ -10,5 +10,6 @@
 <body>
     <h1> {{ data }} </h1>
     <h1> ({{ posts.id }}) {{ posts.name }}  </h1>
+    <a href="{% url 'website:redirect-task' pk=posts.id %}">Go to</a>
 </body>
 </html>
