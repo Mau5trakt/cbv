@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> Detail of the book {{book.title}}</h1>
+    <small>genre: {{ book.genre }}</small>
+    <small>isbn: {{ book.isbn }}</small>
+    <small>time: {{ time }}</small>
+
+    <a href="{% url 'books:index' %}">All books</a>
+</body>
+</html>

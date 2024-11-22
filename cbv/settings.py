@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "myapp.apps.MyappConfig",
-    "website.apps.WebsiteConfig"
+    "website.apps.WebsiteConfig",
+    "books"
 ]
 
 MIDDLEWARE = [
