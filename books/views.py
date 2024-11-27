@@ -69,5 +69,7 @@ class AddBookView(CreateView):
     success_url = '/books/'
     # optionally we can define the fields of the form manually
     # fields = ['title', 'author', 'isbn']
+    def dispatch(self, request, *args, **kwargs):
+        print('a', self.args, self.kwargs)
+        return super().dispatch(request, *args, *kwargs)
 
-    
