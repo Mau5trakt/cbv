@@ -1,8 +1,9 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic.edit import FormView
 from books.models import Book
 from django.db.models import F
 from django.utils import timezone
+from books.forms import AddForm
 # Create your views here.
 """
     Detail View have to be called by his pk or slug
@@ -11,15 +12,15 @@ from django.utils import timezone
 
 
 class IndexView(ListView):
-    
+    """ Used to perform actions instead than saving data  """
     model = Book
     template_name = "home.html"
     context_object_name = 'books'
-    paginate_by = 4
+    # paginate_by = 4
 
 
     def get_queryset(self):
-        return Book.objects.all()[:3]
+        return Book.objects.all()
     
 class BookDetailView(DetailView):
     model = Book
@@ -47,3 +48,14 @@ class GenreView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         return Book.objects.filter(genre__contains=self.kwargs.get('genre'))
+
+
+
+class AddBookView(FormView):
+    template_name = 'add.html'
+    success_url = '/books/'
+    form_class = AddForm
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
