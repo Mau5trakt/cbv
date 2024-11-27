@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import TemplateView, DetailView, ListView, CreateView
 from django.views.generic.edit import FormView
 from books.models import Book
 from django.db.models import F
@@ -12,7 +12,7 @@ from books.forms import AddForm
 
 
 class IndexView(ListView):
-    """ Used to perform actions instead than saving data  """
+
     model = Book
     template_name = "home.html"
     context_object_name = 'books'
@@ -50,12 +50,24 @@ class GenreView(ListView):
         return Book.objects.filter(genre__contains=self.kwargs.get('genre'))
 
 
-
+"""
 class AddBookView(FormView):
+    # Used to perform actions instead than saving data  
     template_name = 'add.html'
     success_url = '/books/'
     form_class = AddForm
 
     def form_valid(self, form):
         form.save()
-        return super().form_valid(form)
+        return super().form_valid(form) 
+"""
+
+class AddBookView(CreateView):
+    model = Book
+    form_class = AddForm
+    template_name = 'add.html'
+    success_url = '/books/'
+    # optionally we can define the fields of the form manually
+    # fields = ['title', 'author', 'isbn']
+
+    
