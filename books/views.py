@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.views.generic.detail import DetailView
+from django.views.generic import TemplateView, DetailView, ListView
 from books.models import Book
 from django.db.models import F
 from django.utils import timezone
@@ -11,14 +10,16 @@ from django.utils import timezone
 """
 
 
-class IndexView(TemplateView):
-
+class IndexView(ListView):
+    
+    model = Book
     template_name = "home.html"
+    context_object_name = 'books'
+    paginate_by = 4
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['books'] = Book.objects.all()
-        return context
+
+    def get_queryset(self):
+        return Book.objects.all()[:3]
     
 class BookDetailView(DetailView):
     model = Book
@@ -37,3 +38,12 @@ class BookDetailView(DetailView):
         context['time'] = timezone.now()
 
         return context
+
+class GenreView(ListView):
+    model = Book
+    template_name = 'home.html'
+    paginate_by = 2
+    context_object_name = 'books'
+
+    def get_queryset(self, *args, **kwargs):
+        return Book.objects.filter(genre__contains=self.kwargs.get('genre'))
